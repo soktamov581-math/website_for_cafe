@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Moviy Coffee – Tashkent café (demo)</title>
+<meta name="description" content="Moviy Coffee: specialty coffee, tea and fresh pastries in Tashkent. Menu, opening hours, location and one-tap call.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F8F7; --surface:#FFFFFF; --ink:#10282B; --muted:#4F6A6D; --line:#D3E2E0;
+  --teal:#0F6E75; --teal2:#12808A; --saffron:#F2B84B; --on-teal:#FFFFFF;
+  --display:"Syne","Trebuchet MS",system-ui,sans-serif;
+  --body:"Outfit","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#0B1A1C; --surface:#12292C; --ink:#EAF4F3; --muted:#9DBBBC; --line:#21403F;
+        --teal:#0B565C; --teal2:#0E666D; --saffron:#F2B84B}
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);scroll-padding-top:16px}
+body{background:var(--bg);color:var(--ink);font:400 1.0625rem/1.65 var(--body);padding-bottom:calc(84px + env(safe-area-inset-bottom,0px));-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--saffron);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1000px;margin:0 auto;padding:0 22px}
+h1,h2,h3{font-family:var(--display);line-height:1.08;letter-spacing:-.015em}
+h2{font-size:clamp(1.8rem,5vw,2.6rem);font-weight:800;margin-bottom:10px}
+
+/* header */
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
+.brand{font-family:var(--display);font-weight:800;font-size:1.3rem;text-decoration:none}
+.status{font-size:.9rem;font-weight:500;padding:5px 12px;border-radius:99px;background:var(--surface);border:1px solid var(--line);color:var(--muted)}
+.status b{display:inline-block;width:9px;height:9px;border-radius:50%;background:#9aa;margin-right:7px}
+.status.open b{background:#2FB170}
+.status.open{color:var(--ink)}
+
+/* hero with tile pattern: the one memorable thing */
+.hero{background:var(--teal);color:var(--on-teal);border-radius:28px;overflow:hidden;position:relative;margin-top:6px}
+.tiles{position:absolute;inset:0;opacity:.5;
+  background:
+   radial-gradient(circle at 50% 50%, var(--saffron) 0 14%, transparent 15%),
+   conic-gradient(from 45deg at 50% 50%, var(--teal) 0 25%, var(--teal2) 0 50%, var(--teal) 0 75%, var(--teal2) 0);
+  background-size:72px 72px;
+  -webkit-mask-image:linear-gradient(100deg,transparent 28%,#000 78%);
+  mask-image:linear-gradient(100deg,transparent 28%,#000 78%)}
+.hero-in{position:relative;padding:56px 28px 52px;max-width:620px}
+.hero h1{font-size:clamp(2.4rem,8vw,4.4rem);font-weight:800}
+.hero p{margin-top:18px;font-size:1.15rem;max-width:42ch;opacity:.92}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.btn{display:inline-block;padding:13px 24px;border-radius:999px;font-weight:600;text-decoration:none;border:2px solid currentColor;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn.solid{background:var(--saffron);border-color:var(--saffron);color:#10282B}
+@media(prefers-reduced-motion:reduce){.btn{transition:none}html{scroll-behavior:auto}}
+
+section{padding:68px 0 8px}
+.lead{color:var(--muted);max-width:52ch;margin-bottom:28px}
+
+/* menu tabs */
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:22px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;font:600 1rem var(--body);padding:10px 20px;border-radius:99px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.menu{list-style:none;padding:0;display:none;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:8px 24px}
+.menu.show{display:block}
+.menu li{display:flex;gap:16px;justify-content:space-between;align-items:baseline;padding:16px 0;border-bottom:1px dashed var(--line)}
+.menu li:last-child{border-bottom:0}
+.menu b{font-family:var(--display);font-size:1.12rem;font-weight:700;display:block}
+.menu span.d{color:var(--muted);font-size:.96rem}
+.menu .p{font-weight:600;white-space:nowrap}
+
+/* visit */
+.visit{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:760px){.visit{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:26px}
+.card h3{font-size:1.3rem;font-weight:700;margin-bottom:14px}
+.hours{width:100%;border-collapse:collapse}
+.hours td{padding:9px 0;border-bottom:1px dashed var(--line)}
+.hours tr:last-child td{border-bottom:0}
+.hours td:last-child{text-align:right;font-weight:600}
+.hours tr.today td{color:var(--teal);font-weight:700}
+@media(prefers-color-scheme:dark){.hours tr.today td{color:var(--saffron)}}
+.map{height:150px;border-radius:14px;margin-bottom:16px;position:relative;overflow:hidden;background:
+  linear-gradient(90deg,transparent 48%,var(--line) 48% 52%,transparent 52%),
+  linear-gradient(0deg,transparent 60%,var(--line) 60% 64%,transparent 64%),
+  repeating-linear-gradient(0deg,transparent 0 28px,color-mix(in srgb,var(--line) 60%,transparent) 28px 30px),
+  var(--bg)}
+.map::after{content:"☕";position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);font-size:1.6rem;width:46px;height:46px;border-radius:50% 50% 50% 0;rotate:-45deg;display:grid;place-items:center;background:var(--saffron)}
+.map::after{writing-mode:horizontal-tb}
+.card address{font-style:normal;margin-bottom:16px}
+.card .btn{border-color:var(--ink);padding:10px 20px}
+
+footer{padding:56px 0 32px;color:var(--muted);font-size:.92rem}
+footer a{text-underline-offset:3px}
+
+/* one-tap call bar (phones) */
+.bar{position:fixed;left:0;right:0;bottom:0;display:flex;gap:10px;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-top:1px solid var(--line);z-index:5}
+.bar a{flex:1;text-align:center;padding:14px;border-radius:14px;font-weight:600;text-decoration:none}
+.bar .call{background:var(--saffron);color:#10282B}
+.bar .dir{background:var(--ink);color:var(--bg)}
+@media(min-width:900px){.bar{display:none}body{padding-bottom:0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="#top">Tasty Coffee</a>
+    <div class="status" id="status" aria-live="polite"><b></b><span>Opening hours below</span></div>
+  </header>
+
+  <main id="top">
+    <div class="hero">
+      <div class="tiles" aria-hidden="true"></div>
+      <div class="hero-in">
+        <h1>Slow coffee in a fast city.</h1>
+        <p>Specialty coffee, loose-leaf tea and pastries baked every morning, a few steps from the center of Tashkent.</p>
+        <div class="actions">
+          <a class="btn solid" href="#menu">See the menu</a>
+          <a class="btn" href="tel:+998900000000">Call us</a>
+        </div>
+      </div>
+    </div>
+
+    <section id="menu">
+      <h2>Menu</h2>
+      <p class="lead">Prices are in UZS. Ask us about oat or almond milk.</p>
+      <div class="tabs" role="tablist" aria-label="Menu categories">
+        <button class="tab" role="tab" aria-selected="true" aria-controls="m-coffee" id="t-coffee">Coffee</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="m-tea" id="t-tea">Tea</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="m-bakery" id="t-bakery">Bakery</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="m-breakfast" id="t-breakfast">Breakfast</button>
+      </div>
+
+      <ul class="menu show" id="m-coffee" role="tabpanel" aria-labelledby="t-coffee">
+        <li><div><b>Espresso</b><span class="d">Double shot, chocolate and nut notes</span></div><span class="p">16 000</span></li>
+        <li><div><b>Flat white</b><span class="d">Double shot with silky milk</span></div><span class="p">26 000</span></li>
+        <li><div><b>Cappuccino</b><span class="d">Classic, with thick milk foam</span></div><span class="p">24 000</span></li>
+        <li><div><b>Iced latte</b><span class="d">Espresso, cold milk and ice</span></div><span class="p">28 000</span></li>
+        <li><div><b>V60 filter</b><span class="d">Single-origin, brewed by hand</span></div><span class="p">30 000</span></li>
+      </ul>
+      <ul class="menu" id="m-tea" role="tabpanel" aria-labelledby="t-tea">
+        <li><div><b>Green tea with jasmine</b><span class="d">Light and floral, 400 ml pot</span></div><span class="p">20 000</span></li>
+        <li><div><b>Black tea with thyme</b><span class="d">A local favorite, 400 ml pot</span></div><span class="p">20 000</span></li>
+        <li><div><b>Sea buckthorn tea</b><span class="d">Warm, tart and lightly sweet</span></div><span class="p">26 000</span></li>
+        <li><div><b>Matcha latte</b><span class="d">Ceremonial matcha with milk</span></div><span class="p">30 000</span></li>
+      </ul>
+      <ul class="menu" id="m-bakery" role="tabpanel" aria-labelledby="t-bakery">
+        <li><div><b>Butter croissant</b><span class="d">Baked fresh every morning</span></div><span class="p">18 000</span></li>
+        <li><div><b>Cinnamon roll</b><span class="d">With cream cheese glaze</span></div><span class="p">22 000</span></li>
+        <li><div><b>Honey cake</b><span class="d">Layered, made to a house recipe</span></div><span class="p">32 000</span></li>
+        <li><div><b>Cheesecake</b><span class="d">New York style, berry sauce</span></div><span class="p">34 000</span></li>
+      </ul>
+      <ul class="menu" id="m-breakfast" role="tabpanel" aria-labelledby="t-breakfast">
+        <li><div><b>Avocado toast</b><span class="d">Sourdough, poached egg, chili flakes</span></div><span class="p">42 000</span></li>
+        <li><div><b>Syrniki</b><span class="d">Curd pancakes with sour cream and jam</span></div><span class="p">38 000</span></li>
+        <li><div><b>Granola bowl</b><span class="d">Yogurt, seasonal fruit and honey</span></div><span class="p">35 000</span></li>
+      </ul>
+    </section>
+
+    <section id="visit">
+      <h2>Visit us</h2>
+      <p class="lead">Walk in, or call ahead and we will hold a table for you.</p>
+      <div class="visit">
+        <div class="card">
+          <h3>Opening hours</h3>
+          <table class="hours" id="hours">
+            <tr data-d="1"><td>Monday</td><td>08:00 – 22:00</td></tr>
+            <tr data-d="2"><td>Tuesday</td><td>08:00 – 22:00</td></tr>
+            <tr data-d="3"><td>Wednesday</td><td>08:00 – 22:00</td></tr>
+            <tr data-d="4"><td>Thursday</td><td>08:00 – 22:00</td></tr>
+            <tr data-d="5"><td>Friday</td><td>08:00 – 23:00</td></tr>
+            <tr data-d="6"><td>Saturday</td><td>09:00 – 23:00</td></tr>
+            <tr data-d="0"><td>Sunday</td><td>09:00 – 22:00</td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <h3>Find us</h3>
+          <div class="map" role="img" aria-label="Map pin showing the café location"></div>
+          <address>12 Example Street<br>Tashkent, Uzbekistan<br><a href="tel:+998900000000">+998 90 000 00 00</a></address>
+          <a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=Tashkent+Uzbekistan" target="_blank" rel="noopener">Open in Google Maps</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>Moviy Coffee is a demo website. Designed in Figma, built with HTML and CSS by <a href="https://YOUR_GITHUB_USERNAME.github.io/">[Your Name]</a>.</footer>
+</div>
+
+<nav class="bar" aria-label="Quick actions">
+  <a class="call" href="tel:+998900000000">Call now</a>
+  <a class="dir" href="https://www.google.com/maps/search/?api=1&amp;query=Tashkent+Uzbekistan" target="_blank" rel="noopener">Directions</a>
+</nav>
+
+<script>
+// Menu tabs
+const tabs=[...document.querySelectorAll('.tab')];
+tabs.forEach(t=>t.addEventListener('click',()=>{
+  tabs.forEach(x=>x.setAttribute('aria-selected',x===t));
+  document.querySelectorAll('.menu').forEach(m=>m.classList.toggle('show',m.id===t.getAttribute('aria-controls')));
+}));
+
+// Open now / closed, using Tashkent time
+(function(){
+  const hours={0:[9,22],1:[8,22],2:[8,22],3:[8,22],4:[8,22],5:[8,23],6:[9,23]};
+  try{
+    const parts=new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Tashkent',weekday:'short',hour:'numeric',minute:'numeric',hour12:false}).formatToParts(new Date());
+    const get=t=>parts.find(p=>p.type===t).value;
+    const day=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(get('weekday'));
+    const now=(+get('hour')%24)+(+get('minute'))/60;
+    const [o,c]=hours[day];
+    const open=now>=o&&now<c;
+    const el=document.getElementById('status');
+    el.classList.toggle('open',open);
+    el.querySelector('span').textContent=open?('Open now, until '+String(c).padStart(2,'0')+':00'):('Closed, opens at '+String(o).padStart(2,'0')+':00');
+    const row=document.querySelector('#hours tr[data-d="'+day+'"]');
+    if(row)row.classList.add('today');
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
